@@ -35,6 +35,39 @@
   </style>
 
 <script>
+  const hero = document.querySelector('.hero')
+  const h1 = document.querySelector('h1')
+  // the walk property determines the maximum distance the shadow should be stretched
+  const walk = 20
+
+  function shadow(e) {
+    // const width = hero.offsetWidth;
+    // const height = hero.offsetHeight;
+    // above is pre es6, below is destructuring and gets the heros height and width values
+    const { offsetWidth: width, offsetHeight: height} = hero;
+    // get the position of the cursor
+    let { offsetX: x, offsetY: y } = e;
+
+    // this equal the thing you listen on (h1) and the target is whatever you hover on.
+    // this code below fixes the odd behaviour of e properties showing on the child element of the thing we are listening on
+    // we add the offsetLeft and offsetTop properties of the child to the offset properties of the hero so we get the right x and y values of the mouse when its moved around the hero element (because when it hits the hero element it gives us the x and y values related to it)
+    if (this !== event.target) {
+      x = x + e.target.offsetLeft;
+      y = y + e.target.offsetTop;
+    }
+
+    // this math sets the walk to go from 50 to -50 instead of 0 to 100
+    const xWalk = (x / width * walk) - (walk / 2)
+    const yWalk = (y / height * walk) - (walk / 2)
+
+    h1.style.textShadow = (`${xWalk}px ${yWalk}px 0 grey`)
+
+  }
+
+  hero.addEventListener('mousemove', shadow)
+
+
+
 </script>
 </body>
 </html>
